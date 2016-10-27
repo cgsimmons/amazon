@@ -1,0 +1,17 @@
+<h1>Edit Product</h1>
+<%= @product.errors.full_messages.join(', ') %>
+<%= form_for @product do |p| %>
+  <div>
+    <%= p.label :title%>
+    <%= p.text_field :title %>
+  </div>
+  <div>
+    <%= p.label :description%>
+    <%= p.text_field :description %>
+  </div>
+  <div>
+    <%= p.label :price%>
+    <%= p.text_field :price %>
+  </div>
+  <%= p.submit %>
+  <% end %>

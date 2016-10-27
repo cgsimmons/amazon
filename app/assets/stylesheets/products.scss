@@ -1,0 +1,83 @@
+// Place all the styles related to the products controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.field_with_errors {
+  display: inline-block;
+}
+
+.field_with_errors input, .field_with_errors textarea {
+  border-color: red;
+
+}
+
+.error {
+  color: red;
+}
+
+table {
+    border-collapse: collapse;
+    border-bottom: 1px solid black;
+}
+
+table tr.even {
+  background-color: #EEEEEE;
+}
+
+table tr.odd {
+
+}
+
+.list_table{
+  width: 95%;
+  max-width: 900px;
+  font-size: 12px;
+  margin: 0 auto;
+}
+th {
+  border: 1px solid black;
+  background-color: #CCCCCC;
+}
+td {
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+    white-space: nowrap;
+}
+.message {
+  max-width: 175px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.button_to,
+.button_to div {
+  display: inline-block;
+}
+
+.paginator {
+  display: table;
+  margin: 0 auto;
+}
+
+.search_page_title {
+  display: inline-block;
+  margin: 13px 15% 10px 0px;
+}
+
+.search_box {
+  float:right;
+  margin-bottom: 10px;
+}
+
+#search-form {
+  display: inline-block;
+}
+
+.sort_label {
+  margin-top: 10px;
+  display: inline-block;;
+}
+
+.star_label {
+  margin: 10px 0 10px 0;
+  display: inline-block;
+}

@@ -1,0 +1,23 @@
+<h1 class="search_page_title">Products</h1>
+<div class="search_box">
+  <%= form_tag(products_path, :method => "get", id: "search-form") do %>
+  <%= text_field_tag :search, params[:search], placeholder: "Search Products" %>
+  <%= submit_tag "Search" %><br>
+  <%= label_tag :sort_by, nil, class: 'sort_label'%>
+  <%= select_tag :sort_by, options_for_select([['Relevance','title'], ['Price: Low to High', 'price'], ['Price: High to Low', 'price'], ['Most Popular', 'hit_count'], ['Newest Arrivals', 'created_at']])  %>
+  <% end %>
+</div>
+
+
+<br>
+<div style="clear:both">
+<% if !@products.present? %>
+  <p>There are no posts containing the term(s) <%= params[:search] %>.</p>
+<% else %>
+  <% @products.each do |p| %>
+    <%= link_to p.title, product_path(p) %>
+    <hr>
+  <% end %>
+<% end %>
+</div>
+<div class="paginator"><%= paginate @products %></div>
