@@ -1,0 +1,7 @@
+<h1>Products tagged with <%= @tag.name %></h1>
+
+<% for product in @products %>
+<div>
+  <%= link_to product.title, product_path(product) %>
+</div>
+<% end %>

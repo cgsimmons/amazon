@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   # resources :questions do
   #   post 'comments' =>'comments#create'
   # end
+  resources :tags, only: [:index, :show]
   resources :favorites, only: :index
   resources :products, shallow: true do
     resources :favorites, only: [:create, :destroy]

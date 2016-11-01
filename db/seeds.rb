@@ -12,6 +12,11 @@
 
 password = 'password'
 
+10.times do
+  Tag.create(name: Faker::Company.buzzword)
+end
+puts "Seeded tags."
+
 50.times do
   user = User.new
   user.first_name = Faker::Name.first_name
@@ -20,25 +25,33 @@ password = 'password'
   user.password_digest = User.new(:password => password).password_digest
   user.save
 end
+puts "Seeded users.
+"
 10.times do
-  Category.create(name: Faker::Company.name)
+  Category.create(name: Faker::Commerce.department)
 end
+puts "Seeded categories."
 
-1000.times do
+
+500.times do
   price = 10 + rand(1000)
-   product = Product.create({title: Faker::Commerce.product_name,
-                  description: Faker::Company.catch_phrase,
-                  category: Category.order("RANDOM()").first,
+  product = Product.create(
+                  title: Faker::Commerce.product_name,
+                  description: Faker::Hacker.say_something_smart + " " + Faker::ChuckNorris.fact + " " + Faker::Lorem.paragraph,
+                  category: Category.all.sample,
+                  tags:  Tag.all.sample(rand(3) + 1),
                   price: price,
                   sale_price: rand(price),
                   hit_count: 1 + rand(10),
-                  user: User.order("RANDOM()").first})
+                  user: User.all.sample,
+                  created_at: Faker::Time.between(5.years.ago, Date.today, :all))
   random = rand(5)
   random.times do
     Review.create(body: Faker::Hipster.paragraph,
                   star_count: 1 + rand(4),
                   product: product,
-                  user: User.order("RANDOM()").first)
+                  user: User.all.sample,
+                  created_at: Faker::Time.between(product[:created_at], Date.today, :all))
   end
 end
-puts "Made the products, categories, and reviews"
+puts "Seeded products and Reviews."

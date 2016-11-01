@@ -17,7 +17,7 @@ class ProductsController < ApplicationController
   end
 
   def create
-    product_params = params.require(:product).permit([:title, :description, :price, :category_id])
+    product_params = params.require(:product).permit([:title, :description, :price, :category_id, tag_ids: []])
     @product = Product.new product_params
     @user = current_user
     @product.user = @user
@@ -44,7 +44,7 @@ class ProductsController < ApplicationController
 
   def update
     @product = Product.find(params[:id])
-    product_params = params.require(:product).permit(:title, :description, :price)
+    product_params = params.require(:product).permit(:title, :description, :price, tag_ids: [])
     if cannot? :manage_product, @product
       redirect_to product_path(@product), alert: 'Access Denied!'
     elsif @product.update product_params

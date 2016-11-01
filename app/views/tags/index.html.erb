@@ -1,0 +1,7 @@
+<h1>View by Tag</h1>
+
+<% for tag in @tags %>
+  <div>
+    <%= link_to tag.name, tag_path(tag) %>
+  </div>
+<% end %>

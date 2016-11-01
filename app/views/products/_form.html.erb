@@ -1,0 +1,31 @@
+<%= @product.errors.full_messages.join(', ') %>
+<%= form_for @product do |p| %>
+  <div>
+    <%= p.label :title%>
+    <%= p.text_field :title %>
+  </div>
+  <div>
+    <%= p.label :category_id %>
+    <%= p.collection_select(:category_id, Category.all, :id, :name) %>
+  </div>
+  <div>
+    <%= p.label :description%>
+    <%= p.text_field :description %>
+  </div>
+  <div>
+    <%= p.label :tag_ids, 'Tags' %>
+    <%= p.collection_select(
+  :tag_ids, Tag.all, :id, :name, {},
+  {multiple: true, class: 'chosen-select' }
+) %>
+  </div>
+  <div>
+    <%= p.label :price%>
+    <%= p.text_field :price %>
+  </div>
+  <%= p.submit %>
+  <% end %>
+
+  <script>
+  $('.chosen-select').chosen({width: '300px'})
+  </script>

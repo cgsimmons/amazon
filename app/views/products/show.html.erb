@@ -1,9 +1,10 @@
 <h1><%= @product.title %></h1>
-<p><%= number_to_currency(@product.price) %></p>
-<p>Category: <%= @product.category.name %></p>
-<p>by <%= @product.user.first_name %> <%= @product.user.last_name %>
-<p><%= @product.description %></p>
-<p>Views: <%= @product.hit_count %></p>
+by <%= @product.user.first_name %> <%= @product.user.last_name %><br>
+Price: <%= number_to_currency(@product.price) %>
+<p><%= @product.description %><br><br>
+Category: <%= @product.category.name %><br>
+Tags: <%=  @product.tags.map(&:name).join(', ')%><br>
+Views: <%= @product.hit_count %></p>
 
 <% if user_signed_in? %>
   <% if can? :manage_product, @product %>
@@ -25,7 +26,6 @@
 <%= @review.errors.full_messages.join(', ') %>
 <%= form_for [@product, @review] do |f| %>
   <div>
-    <%= f.label :body %>
     <%= f.text_area :body %>
     <br>
     <%= f.label :star_count, 'Number of Stars: ', class: 'star_label' %>
@@ -35,6 +35,7 @@
 <% end %>
 <h2>Reviews</h2>
 <% @product.reviews.each do |rev| %>
+<div>
   Rating:
    <% rev.star_count.to_i.times do %>
    🌟
@@ -43,8 +44,8 @@
    ☆
    <% end %>
  <br>
-  by <%= rev.user.first_name %> <%= rev.user.last_name %>
-  <br>
+  by <%= rev.user.first_name %> <%= rev.user.last_name %> on <%= rev.created_at.strftime("%b. %e, %Y") %>
+  <br><br>
   <%= rev.body %>
   <br>
   <br>
@@ -61,6 +62,6 @@
       <%= link_to 'like', review_likes_path(rev), method: :post%>
     <% end %>
   <% end %>
-
+  </div>
   <hr>
   <% end %>
