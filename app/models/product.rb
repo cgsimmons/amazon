@@ -2,6 +2,9 @@ class Product < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favoriting_users, through: :favorites, source: :user
+  has_many :taggings, dependent: :destroy
+  has_many :tags, through: :taggings
+
   belongs_to :category
   belongs_to :user
   before_save :capitalize_title
