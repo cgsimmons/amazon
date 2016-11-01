@@ -1,9 +1,5 @@
 Rails.application.routes.draw do
 
-  get 'likes/create'
-
-  get 'likes/destroy'
-
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   # get '/' => 'home#index', as: :home
   root 'home#index'
@@ -16,10 +12,12 @@ Rails.application.routes.draw do
   #   post 'comments' =>'comments#create'
   # end
   resources :favorites, only: :index
-  resources :products do
-    resource :favorites, only: [:create, :destroy]
+  resources :products, shallow: true do
+    resources :favorites, only: [:create, :destroy]
     # resources :comments, only: [:create]
-    resources :reviews, only: [:create, :destroy]
+    resources :reviews, only: [:create, :destroy] do
+      resources :likes, only: [:create, :destroy]
+    end
   end
   resources :sessions, only: [:new, :create] do
     delete :destroy, on: :collection

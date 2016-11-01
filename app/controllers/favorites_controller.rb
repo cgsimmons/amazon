@@ -10,7 +10,7 @@ class FavoritesController < ApplicationController
     product = Product.find(params[:product_id])
     favorite = Favorite.new(user: current_user, product: product)
     if cannot? :favorite, product
-      redirect_to :back, notice: '‼ Access Denied ‼'
+      redirect_to :back, alert: '‼ Access Denied ‼'
     elsif favorite.save
       redirect_to :back, notice: '❤Added to your favorites!❤'
     else

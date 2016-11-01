@@ -13,6 +13,36 @@ class Ability
     cannot :favorite, Product do |p|
       p.user == user
     end
+
+    can :like, Review do |r|
+      r.user != user
+    end
+
+    cannot :like, Review do |r|
+      r.user == user
+    end
+
+    can :review, Product do |p|
+      p.user != user
+    end
+
+    cannot :review, Product do |p|
+      p.user == user
+    end
+
+    cannot :destroy_review, Review do |r|
+      r.user != user && r.product.user != user
+    end
+
+    can :manage_product, Product do |p|
+      p.user == user
+    end
+
+    can :destroy_review, Review do |r|
+      r.user == user || r.product.user == user
+    end
+
+
     #   if user.admin?
     #     can :manage, :all
     #   else

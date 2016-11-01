@@ -5,15 +5,19 @@
 <p><%= @product.description %></p>
 <p>Views: <%= @product.hit_count %></p>
 
-<%= link_to 'edit', edit_product_path(@product)%>
-<%= link_to 'delete', product_path(@product),
-                      method: :delete,
-                      data: {confirm: 'Are you sure?'}%>
-<% if user_signed_in? && can?(:favorite, @product) %>
-  <% if @favorite.present? %>
-    <%= link_to 'unfavorite', product_favorites_path(@product), method: :delete %>
-  <% else %>
-    <%= link_to 'favorite', product_favorites_path(@product), method: :post%>
+<% if user_signed_in? %>
+  <% if can? :manage_product, @product %>
+  <%= link_to 'edit', edit_product_path(@product)%>
+  <%= link_to 'delete', product_path(@product),
+                        method: :delete,
+                        data: {confirm: 'Are you sure?'}%>
+  <% end %>
+  <% if can? :favorite, @product %>
+    <% if @favorite.present? %>
+      <%= link_to 'unfavorite', product_favorites_path(@product), method: :delete %>
+    <% else %>
+      <%= link_to 'favorite', product_favorites_path(@product), method: :post%>
+    <% end %>
   <% end %>
 <% end %>
 <hr>
@@ -44,9 +48,19 @@
   <%= rev.body %>
   <br>
   <br>
-  <%= link_to 'delete', product_review_path(@product, rev),
-                        method: :delete,
-                        data: {confirm: 'Are you sure?'}%>
+  <% if user_signed_in? && can?(:destroy_review, rev) %>
+    <%= link_to 'delete', review_path(rev),
+                          method: :delete,
+                          data: {confirm: 'Are you sure?'}%>
+  <% end %>
+  <% if user_signed_in? && can?(:like, rev) %>
+    <% like = rev.like_for(current_user)  %>
+    <% if like.present? %>
+      <%= link_to 'unlike', like_path(like), method: :delete %>
+    <% else %>
+      <%= link_to 'like', review_likes_path(rev), method: :post%>
+    <% end %>
+  <% end %>
 
   <hr>
   <% end %>

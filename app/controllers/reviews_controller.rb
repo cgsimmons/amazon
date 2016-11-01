@@ -8,7 +8,9 @@ class ReviewsController < ApplicationController
     @review.product = @product
     @user = current_user
     @review.user = @user
-    if @review.save
+    if cannot? :review, @product
+      redirect_to product_path(@product), notice: 'Cannot review your own product!'
+    elsif @review.save
       Product.decrement_counter(:hit_count, @product[:id])
       redirect_to product_path(@product), notice: 'Review added successfully.'
     else
@@ -17,11 +19,18 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    @product = Product.find(params[:product_id])
+    # @product = Product.find(params[:product_id])
     @review = Review.find(params[:id])
-    @review.destroy
+    @product = @review.product
     Product.decrement_counter(:hit_count, @product[:id])
-    redirect_to product_path(@product), notice: "Review deleted successfully."
+
+    if cannot? :destroy_review, @review
+      redirect_to product_path(@product), notice: 'Access Denied'
+    elsif @review.destroy
+      redirect_to product_path(@product), notice: "Review deleted successfully."
+    else
+      redirect_to product_path(@product), @review.errors.full_messages.join(", ")
+    end
   end
 
 end

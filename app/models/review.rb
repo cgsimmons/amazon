@@ -9,4 +9,8 @@ class Review < ApplicationRecord
             numericality: {greater_than_or_equal_to: 1,
                             less_than_or_equal_to: 5}
   validates :body, presence: true
+
+  def like_for(user)
+    likes.find_by(user: user)
+  end
 end
