@@ -11,7 +11,7 @@ class Product < ApplicationRecord
   before_validation :set_defaults
 
   validates :title, presence: true,
-            :uniqueness => {case_sensitive: false}
+            uniqueness: {case_sensitive: false}
 
   validates :price, presence: true, numericality: {greater_than: 0}
 

@@ -1,0 +1,25 @@
+<div id="<%= dom_id(rev) %>">
+  Rating:
+   <% rev.star_count.to_i.times do %>
+   🌟
+   <% end %>
+   <% (5-rev.star_count.to_i).times do %>
+   ☆
+   <% end %>
+ <br>
+  by <%= rev.user.first_name %> <%= rev.user.last_name %> on <%= rev.created_at.strftime("%b. %e, %Y") %>
+  <br><br>
+  <%= rev.body %>
+  <br>
+  <br>
+  <% if user_signed_in? && can?(:destroy_review, rev) %>
+    <%= link_to 'delete', review_path(rev),
+                          remote: true,
+                          method: :delete,
+                          data: {confirm: 'Are you sure?'}%>
+  <% end %>
+  <div class="likes">
+    <%= render 'likes/like', {rev: rev} %>
+  </div>
+  <hr>
+</div>

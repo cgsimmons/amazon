@@ -1,0 +1,13 @@
+<%= @review.errors.full_messages.join(', ') %>
+<div>
+<%= form_for [@product, @review], remote: true do |f| %>
+  <div>
+    <%= f.text_area :body %>
+    <br>
+    <%= f.label :star_count, 'Number of Stars: ', class: 'star_label' %>
+    <%= f.select :star_count, options_for_select(1..5, @review.star_count) %>
+  </div>
+  <%= f.submit %>
+<% end %>
+<hr/>
+</div>

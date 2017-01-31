@@ -19,8 +19,8 @@ class FavoritesController < ApplicationController
   end
 
   def destroy
-    product = Product.find(params[:product_id])
-    favorite = product.favorite_for(current_user)
+    favorite = Favorite.find_by(id: params[:id])
+    product = favorite.product
     if favorite.destroy
       redirect_to :back, notice: '💔Unfavorited product.💔'
     else

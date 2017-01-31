@@ -10,6 +10,11 @@ class ProductsController < ApplicationController
     else
      @products = Product.order(title: :ASC).page(params[:page]).per(10)
    end
+
+   respond_to do |format|
+     format.html {render}
+     format.json {render json: @products.to_json}
+   end
   end
 
   def new
@@ -33,6 +38,10 @@ class ProductsController < ApplicationController
     @review = Review.new
     @favorite = @product.favorite_for(current_user)
     Product.increment_counter(:hit_count, @product[:id])
+    respond_to do |format|
+      format.html {render}
+      format.json {render json: @product.to_json(include: :reviews)}
+    end
   end
 
   def edit

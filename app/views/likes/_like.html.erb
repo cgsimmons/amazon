@@ -1,0 +1,9 @@
+(<%= pluralize rev.likes.count, "like" %>)
+<% if user_signed_in? && can?(:like, rev) %>
+  <% like = rev.like_for(current_user)  %>
+  <% if like.present? %>
+      <%= link_to 'unlike', like_path(like), remote: true, method: :delete %>
+  <% else %>
+      <%= link_to 'like', review_likes_path(rev), remote: true, method: :post%>
+  <% end %>
+<% end %>

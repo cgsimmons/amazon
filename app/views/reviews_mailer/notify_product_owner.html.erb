@@ -1,0 +1,7 @@
+<p>Hello, <%= @user.full_name %>, </p>
+<p>Your product has received a review!</p>
+<p>Product: <%= @product.title %></p>
+<p>Review: <%= @review.body %></p>
+<%= link_to 'Click here to view the product page', product_url(@product) %>
+<p>Regards,</p>
+<p>Amazon Team</p>

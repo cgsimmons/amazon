@@ -15,53 +15,22 @@ Views: <%= @product.hit_count %></p>
   <% end %>
   <% if can? :favorite, @product %>
     <% if @favorite.present? %>
-      <%= link_to 'unfavorite', product_favorites_path(@product), method: :delete %>
+      <%= link_to 'unfavorite', favorite_path(@favorite), method: :delete %>
     <% else %>
       <%= link_to 'favorite', product_favorites_path(@product), method: :post%>
     <% end %>
   <% end %>
 <% end %>
 <hr>
-<h2>Write a Review</h2>
-<%= @review.errors.full_messages.join(', ') %>
-<%= form_for [@product, @review] do |f| %>
-  <div>
-    <%= f.text_area :body %>
-    <br>
-    <%= f.label :star_count, 'Number of Stars: ', class: 'star_label' %>
-    <%= f.select :star_count, options_for_select(1..5) %>
+<% if can? :review, @product %>
+  <h2>Write a Review</h2>
+  <div id="review-form">
+    <%= render 'reviews/form' %>
   </div>
-  <%= f.submit %>
 <% end %>
 <h2>Reviews</h2>
-<% @product.reviews.each do |rev| %>
-<div>
-  Rating:
-   <% rev.star_count.to_i.times do %>
-   🌟
-   <% end %>
-   <% (5-rev.star_count.to_i).times do %>
-   ☆
-   <% end %>
- <br>
-  by <%= rev.user.first_name %> <%= rev.user.last_name %> on <%= rev.created_at.strftime("%b. %e, %Y") %>
-  <br><br>
-  <%= rev.body %>
-  <br>
-  <br>
-  <% if user_signed_in? && can?(:destroy_review, rev) %>
-    <%= link_to 'delete', review_path(rev),
-                          method: :delete,
-                          data: {confirm: 'Are you sure?'}%>
+<div id="reviews">
+  <% @product.reviews.each do |review| %>
+    <%= render 'reviews/review', {rev: review} %>
   <% end %>
-  <% if user_signed_in? && can?(:like, rev) %>
-    <% like = rev.like_for(current_user)  %>
-    <% if like.present? %>
-      <%= link_to 'unlike', like_path(like), method: :delete %>
-    <% else %>
-      <%= link_to 'like', review_likes_path(rev), method: :post%>
-    <% end %>
-  <% end %>
-  </div>
-  <hr>
-  <% end %>
+</div>

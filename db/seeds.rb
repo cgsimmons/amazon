@@ -25,8 +25,7 @@ puts "Seeded tags."
   user.password_digest = User.new(:password => password).password_digest
   user.save
 end
-puts "Seeded users.
-"
+puts "Seeded users."
 10.times do
   Category.create(name: Faker::Commerce.department)
 end
